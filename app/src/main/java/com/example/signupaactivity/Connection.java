@@ -1,7 +1,12 @@
 package com.example.signupaactivity;
 
+import android.os.StrictMode;
 import android.widget.Toast;
 
+
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
@@ -12,31 +17,66 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Connection extends AppCompatActivity {
-    private String host = "10.42.0.1";
+    private String host;
     protected String page;
 
-    public void connectt(String email, String password, String age, String address) {
+    public void connectt(String email, String password, String age, String address, String firstName, String familyName) throws IOException {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://"+host+"/"+page,
+        if (android.os.Build.VERSION.SDK_INT > 9)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        try(final DatagramSocket socket = new DatagramSocket()){
+            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
+            host = socket.getLocalAddress().getHostAddress();
+        }
+        host = "/192.168.1.4";
+        System.out.println(host);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http:/"+host+"/"+page,
 
                 new Response.Listener<String>() {
 
                     @Override
 
                     public void onResponse(String response) {
-                        if(response.trim().equals("exist")){
-                            ResponseExist();
-                        }else if (response.trim().equals("success")) {
+                        JSONObject jsonObject = null;
+                        String status;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            status = jsonObject.getString("status");
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
 
-                            ResponseMethod();
+                        if(status.equals("exist")){
+                            ResponseExist();
+                        }else if (status.equals("success")) {
+
+                            try {
+                                ResponseMethod(jsonObject);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
 
                         } else {
 
-                            error1(response);
+                            try {
+                                error1(jsonObject);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
 
                         }
 
@@ -64,7 +104,7 @@ public abstract class Connection extends AppCompatActivity {
 
 // Set POST parameters
 
-                return getStringMap(email, password, age, address);
+                return getStringMap(email, password, age, address, firstName, familyName);
 
             }
 
@@ -76,12 +116,13 @@ public abstract class Connection extends AppCompatActivity {
 
     protected abstract void ResponseExist();
 
-    protected abstract Map<String, String> getStringMap(String email, String password, String age, String address);
+    protected abstract Map<String, String> getStringMap(String email, String password, String age, String address, String firstName, String familyName);
 
     protected abstract void error2(VolleyError error);
 
+    public abstract  void ResponseMethod(JSONObject jsonObject) throws JSONException;
     public abstract  void ResponseMethod();
-    protected abstract void error1(String response);
+    protected abstract void error1(JSONObject jsonObject) throws JSONException;
 }
 
 
