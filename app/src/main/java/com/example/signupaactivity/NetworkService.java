@@ -28,13 +28,13 @@ public class NetworkService extends Service {
 
     @Override
     public void onDestroy() {
-        if (networkReceiver != null) {
+        if (networkReceiver != null) {//+2
             unregisterReceiver(networkReceiver);
             networkReceiver = null;
         }
         super.onDestroy();
     }
-
+// on destroy 2
     public NetworkChangeReceiver getNetworkReceiver(){
         return this.networkReceiver;
     }

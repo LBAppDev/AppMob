@@ -19,7 +19,7 @@ app:layout_constraintTop_toTopOf ="parent" />
         android:id="@+id/logOUt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="logOUt"
+        android:text="@string/logout"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="3dp" />
 

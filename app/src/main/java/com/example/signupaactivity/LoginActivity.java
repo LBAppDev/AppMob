@@ -88,15 +88,15 @@ public class LoginActivity extends Connection {
 
                 String password = passwordEditText.getText().toString();
 
-                try {
+                try {//+1
                     connectt(email, password, "", "", "", "" );
-                } catch (SocketException e) {
+                } catch (SocketException e) {//+1
                     throw new RuntimeException(e);
-                } catch (IOException e) {
+                } catch (IOException e) {//+1
                     throw new RuntimeException(e);
                 }
 
-            }
+            }//3
 
         });
 

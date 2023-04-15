@@ -1,3 +1,15 @@
 <resources>
+    <string name="hello">hello</string>
     <string name="app_name">SignupaActivity</string>
+    <string name="get_started">get started</string>
+    <string name="already_have_an_account">already have an account</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="first_name">first name</string>
+    <string name="family_name">family name</string>
+    <string name="email">Email</string>
+    <string name="pw">Password</string>
+    <string name="age">Age</string>
+    <string name="address">Address</string>
+    <string name="login">LOGIN</string>
+    <string name="logout">LOGOUT</string>
 </resources>

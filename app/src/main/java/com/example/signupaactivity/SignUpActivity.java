@@ -99,12 +99,12 @@ public class SignUpActivity extends Connection {
                 firstName = firstNameText.getText().toString();
                 familyName = familyNameText.getText().toString();
 
-                try {
+                try {//+1
                     connectt(email, password, age, address, firstName, familyName);
-                } catch (IOException e) {
+                } catch (IOException e) {//+1
                     throw new RuntimeException(e);
                 }
-            }
+            } // on click 2
         });
 
     }
@@ -160,20 +160,7 @@ public class SignUpActivity extends Connection {
 
     }
 
-    private void run(){
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                if(!networkService.getNetworkReceiver().isConnected() && connected == true) {
-                    Toast.makeText(SignUpActivity.this, "Verify your Internet connection", Toast.LENGTH_SHORT).show();
-                    connected = false;
-                }else if(networkService.getNetworkReceiver().isConnected() && connected == false){
-                    Toast.makeText(SignUpActivity.this, "Connected !", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
+
 
     @Override
     public void ResponseMethod() {

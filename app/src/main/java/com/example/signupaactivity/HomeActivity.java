@@ -2,6 +2,7 @@ package com.example.signupaactivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -42,6 +43,7 @@ public class HomeActivity extends AppCompatActivity {
             mBound = false;
         }
     };
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
                 String firstName = preferences.getString("first_name", "");
                 String familyName = preferences.getString("family_name", "");
         TextView welcomeTextView = findViewById(R.id.welcome_textview);
-        welcomeTextView.setText("Hello " + firstName + " " + familyName);
+        welcomeTextView.setText(getString(R.string.hello)+ " " + firstName + " " + familyName);
         logOut = findViewById(R.id.logOUt);
         logOut.setOnClickListener(new View.OnClickListener() {
 

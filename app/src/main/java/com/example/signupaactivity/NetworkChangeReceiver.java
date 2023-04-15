@@ -20,13 +20,14 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
                 null && networkInfo.isConnected();
 
         // Display a toast whenever the connecitivty has changed
-        if (isConnected)
+        if (isConnected)//+1
             Toast.makeText(context.getApplicationContext(),
                     "Connection restored", Toast.LENGTH_SHORT).show();
-        else
+        else//+1
             Toast.makeText(context.getApplicationContext(),
                     "Connection lost", Toast.LENGTH_SHORT).show();
     }
+     //on receive //2
 
     public boolean isConnected() {
         return isConnected;

@@ -46,7 +46,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(WelcomeActivity.this);
         String email = preferences.getString("email", "");
-        if(!email.equals("")){
+        if(!email.equals("")){//+1
             Intent intent = new Intent(WelcomeActivity.this, HomeActivity.class);
             startActivity(intent);
             finish();
@@ -71,7 +71,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
     }
-
+// on create 1
     @Override
     protected void onStart() {
         super.onStart();

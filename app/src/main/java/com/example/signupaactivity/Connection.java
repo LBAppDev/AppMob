@@ -33,17 +33,7 @@ public abstract class Connection extends AppCompatActivity {
 
     public void connectt(String email, String password, String age, String address, String firstName, String familyName) throws IOException {
 
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-        try(final DatagramSocket socket = new DatagramSocket()){
-            socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
-            host = socket.getLocalAddress().getHostAddress();
-        }
-        host = "/192.168.1.4";
-        System.out.println(host);
+        host = "/10.42.0.1";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http:/"+host+"/"+page,
 
                 new Response.Listener<String>() {
@@ -53,37 +43,36 @@ public abstract class Connection extends AppCompatActivity {
                     public void onResponse(String response) {
                         JSONObject jsonObject = null;
                         String status;
-                        try {
+                        try {//+1
                             jsonObject = new JSONObject(response);
                             status = jsonObject.getString("status");
-                        } catch (JSONException e) {
+                        } catch (JSONException e) {//+1
                             throw new RuntimeException(e);
                         }
 
-                        if(status.equals("exist")){
+                        if(status.equals("exist")){//+1
                             ResponseExist();
-                        }else if (status.equals("success")) {
+                        }else if (status.equals("success")) {//+1
 
-                            try {
+                            try {//+2
                                 ResponseMethod(jsonObject);
-                            } catch (JSONException e) {
+                            } catch (JSONException e) {//+2
                                 throw new RuntimeException(e);
                             }
 
-                        } else {
+                        } else {//+1
 
-                            try {
+                            try {//+2
                                 error1(jsonObject);
-                            } catch (JSONException e) {
+                            } catch (JSONException e) {//+2
                                 throw new RuntimeException(e);
                             }
 
                         }
 
-                    }
+                    } // on response 13
 
                 },
-
                 new Response.ErrorListener() {
 
                     @Override

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">مرحبا</string>
+    <string name="get_started">ابدء</string>
+    <string name="app_name">تسجيل الدخول</string>
+    <string name="already_have_an_account">لدي حساب بالفعل</string>
+    <string name="sign_up">اشتراك</string>
+    <string name="first_name">الاسم الاول</string>
+    <string name="family_name">اسم العائلة</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="pw">كلمة المرور</string>
+    <string name="age">العمر</string>
+    <string name="address">العنوان</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="logout">تسجيل الخروج</string>
+</resources>

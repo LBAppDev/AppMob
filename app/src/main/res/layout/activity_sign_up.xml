@@ -9,41 +9,44 @@ android:padding ="16dp">
         android:id="@+id/firstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="first name" />
+        android:hint="@string/first_name" />
 
     <EditText
         android:id="@+id/familyName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="family name" />
+        android:hint="@string/family_name" />
 
     <EditText
-android:id ="@+id/email"
-android:layout_width ="match_parent"
-android:layout_height ="wrap_content"
-android:hint ="Email"
-android:inputType ="textEmailAddress" />
-<EditText
-android:id= "@+id/password"
-android:layout_width ="match_parent"
-android:layout_height ="wrap_content"
-android:hint ="Password"
-android:inputType ="textPassword" />
-<EditText
-android:id ="@+id/age"
-android:layout_width ="match_parent"
-android:layout_height ="wrap_content"
-android:hint ="Age"
-android:inputType ="number" />
-<EditText
-android:id ="@+id/address"
-android:layout_width ="match_parent"
-android:layout_height ="wrap_content"
-android:hint ="Address" />
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/pw"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/age"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/address" />
 
     <Button
         android:id="@+id/signup_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign Up" />
+        android:text="@string/sign_up" />
 </LinearLayout>
