@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Binder;
 import android.os.IBinder;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class NetworkService extends Service {
     private NetworkChangeReceiver networkReceiver;
+    public AppCompatActivity activity;
     private final IBinder binder = new LocalBinder();
 
     @Override
@@ -23,7 +27,12 @@ public class NetworkService extends Service {
         networkReceiver = NetworkChangeReceiver.getInstance(new ConnectivityChangeListener() {
             @Override
             public void onConnectivityChange(boolean isConnected) {
-                // do something when the connectivity changes
+                if(isConnected)
+                    Toast.makeText(NetworkService.this, "connection restored", Toast.LENGTH_SHORT).
+                            show();
+                else
+                    Toast.makeText(NetworkService.this, "connection lost", Toast.LENGTH_SHORT).
+                            show();
             }
         });
 
