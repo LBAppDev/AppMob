@@ -1,36 +1,29 @@
 package com.example.signupaactivity;
- import android.content.ComponentName;
- import android.content.Context;
- import android.content.Intent;
- import android.content.ServiceConnection;
- import android.content.SharedPreferences;
- import android.os.Bundle;
- import android.os.IBinder;
- import android.preference.PreferenceManager;
- import android.view.View;
- import android.widget.Button;
- import android.widget.EditText;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.preference.PreferenceManager;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
- import androidx.annotation.NonNull;
- import androidx.appcompat.app.AppCompatActivity;
+import com.android.volley.VolleyError;
 
- import com.android.volley.AuthFailureError;
- import com.android.volley.Request;
- import com.android.volley.Response;
- import com.android.volley.VolleyError;
- import com.android.volley.toolbox.StringRequest;
- import com.android.volley.toolbox.Volley;
+import org.json.JSONException;
+import org.json.JSONObject;
 
- import org.json.JSONException;
- import org.json.JSONObject;
+import java.io.IOException;
+import java.net.SocketException;
+import java.util.HashMap;
+import java.util.Map;
 
- import java.io.IOException;
- import java.net.SocketException;
- import java.util.HashMap;
- import java.util.Map;
-
-public class LoginActivity extends Connection {
+public class LoginActivity extends HTTP {
 
     private EditText emailEditText;
 
@@ -105,29 +98,31 @@ public class LoginActivity extends Connection {
 
     public void ResponseMethod(JSONObject jsonObject) throws JSONException {
 
-        JSONObject userObject = jsonObject.getJSONObject("user_info");
-                String family_name = userObject.getString("family_name");
-                String first_name = userObject.getString("first_name");
-                String email = userObject.getString("email");
-                int age = userObject.getInt("age");
-                String address = userObject.getString("address");
-// Save user information to shared preferences
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                LoginActivity.this);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("family_name", family_name);
-                editor.putString("first_name", first_name);
-                editor.putString("email", email);
-                editor.putInt("age",age);
-                editor.putString("address", address);
-                editor.apply();
-        
-                status = "success";
-        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    JSONObject userObject = jsonObject.getJSONObject("user_info");
+                    String family_name = userObject.getString("family_name");
+                    String first_name = userObject.getString("first_name");
+                    String email = userObject.getString("email");
+                    int age = userObject.getInt("age");
+                    String address = userObject.getString("address");
+                    String sessionToken = jsonObject.getString("session_token");
+                    String sessionId = jsonObject.getString("session_id");
 
-        startActivity(intent);
+                    // Save user information and session token to shared preferences
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(LoginActivity.this);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("family_name", family_name);
+                    editor.putString("first_name", first_name);
+                    editor.putString("email", email);
+                    editor.putInt("age", age);
+                    editor.putString("address", address);
+                    editor.putString("session_token", sessionToken);
+                    editor.putString("session_id", sessionId);
+                    editor.apply();
 
-        finish();
+                    // Start HomeActivity
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
     }
 
     @Override
@@ -182,5 +177,7 @@ public class LoginActivity extends Connection {
     public String getLastStatus() {
         return this.status;
     }
+
+
 
 }

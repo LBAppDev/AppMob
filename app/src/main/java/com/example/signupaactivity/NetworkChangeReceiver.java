@@ -5,10 +5,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
+
+    private static ConnectivityChangeListener connListener;
     private boolean isConnected;
+    private static NetworkChangeReceiver instance;
+
+    private NetworkChangeReceiver() {
+        // private constructor to prevent instantiation from outside
+    }
+
+    public static NetworkChangeReceiver getInstance(ConnectivityChangeListener listener) {
+        connListener = listener;
+        if (instance == null) {
+            instance = new NetworkChangeReceiver();
+        }
+        return instance;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -19,18 +33,12 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
         isConnected = networkInfo !=
                 null && networkInfo.isConnected();
 
-        // Display a toast whenever the connecitivty has changed
-        if (isConnected)//+1
-            Toast.makeText(context.getApplicationContext(),
-                    "Connection restored", Toast.LENGTH_SHORT).show();
-        else//+1
-            Toast.makeText(context.getApplicationContext(),
-                    "Connection lost", Toast.LENGTH_SHORT).show();
+        connListener.onConnectivityChange(isConnected);
     }
-     //on receive //2
 
     public boolean isConnected() {
         return isConnected;
     }
 
 }
+

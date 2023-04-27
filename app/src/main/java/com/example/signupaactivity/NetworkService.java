@@ -20,7 +20,13 @@ public class NetworkService extends Service {
         IntentFilter filter = new IntentFilter();
         filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 
-        networkReceiver = new NetworkChangeReceiver();
+        networkReceiver = NetworkChangeReceiver.getInstance(new ConnectivityChangeListener() {
+            @Override
+            public void onConnectivityChange(boolean isConnected) {
+                // do something when the connectivity changes
+            }
+        });
+
         registerReceiver(networkReceiver, filter);
 
         return START_STICKY;

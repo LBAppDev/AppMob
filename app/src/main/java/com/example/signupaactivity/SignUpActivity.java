@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.view.View;
@@ -14,26 +13,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SignUpActivity extends Connection {
+public class SignUpActivity extends HTTP {
     private EditText emailEditText;
     private EditText passwordEditText;
     private EditText ageEditText;
@@ -135,29 +124,28 @@ public class SignUpActivity extends Connection {
     }
 
     public void ResponseMethod(JSONObject jsonObject) throws JSONException {
-        Toast.makeText(SignUpActivity.this, "Sign Up Success", Toast.
-                LENGTH_SHORT).show();
-        JSONObject userObject = jsonObject.getJSONObject("user_info");
-        String family_name = userObject.getString("family_name");
-        String first_name = userObject.getString("first_name");
-        String email = userObject.getString("email");
-        int age = Integer.parseInt(userObject.getString("age"));
-        String address = userObject.getString("address");
-// Save user information to shared preferences
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(
-                SignUpActivity.this);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("family_name", family_name);
-        editor.putString("first_name", first_name);
-        editor.putString("email", email);
-        editor.putInt("age",age);
-        editor.putString("address", address);
-        editor.apply();
-        Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
 
-        startActivity(intent);
-        finish();
 
+                    // Get user information
+                    String sessionToken = jsonObject.getString("session_token");
+                    String sessionId = jsonObject.getString("session_id");
+
+                    // Save user information to shared preferences
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(SignUpActivity.this);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("family_name", jsonObject.getJSONObject("user_info").getString("family_name"));
+                    editor.putString("first_name", jsonObject.getJSONObject("user_info").getString("first_name"));
+                    editor.putString("email", jsonObject.getJSONObject("user_info").getString("email"));
+                    editor.putInt("age", Integer.parseInt(jsonObject.getJSONObject("user_info").getString("age")));
+                    editor.putString("address", jsonObject.getJSONObject("user_info").getString("address"));
+                    editor.putString("session_token", sessionToken);
+                    editor.putString("session_id", sessionId);
+                    editor.apply();
+
+                    // Start HomeActivity
+                    Intent intent = new Intent(SignUpActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
     }
 
 

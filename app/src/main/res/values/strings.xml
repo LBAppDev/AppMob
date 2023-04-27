@@ -12,4 +12,5 @@
     <string name="address">Address</string>
     <string name="login">LOGIN</string>
     <string name="logout">LOGOUT</string>
+    <string name="verify_your_Internet">verify your internet</string>
 </resources>

@@ -1,17 +1,13 @@
 package com.example.signupaactivity;
 
-import android.os.StrictMode;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.widget.Toast;
 
-
-import java.io.IOException;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
@@ -20,20 +16,22 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.Map;
 
-public abstract class Connection extends AppCompatActivity {
-    private String host;
+public abstract class HTTP extends AppCompatActivity implements ConnectivityChangeListener{
+    public static String host = "/192.168.1.3";
     protected String page;
+
+    NetworkService networkService;
+
+    boolean mBound = false;
+
+    private NetworkChangeReceiver networkReceiver;
 
     public void connectt(String email, String password, String age, String address, String firstName, String familyName) throws IOException {
 
-        host = "/10.42.0.1";
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, "http:/"+host+"/"+page,
 
                 new Response.Listener<String>() {
@@ -112,6 +110,68 @@ public abstract class Connection extends AppCompatActivity {
     public abstract  void ResponseMethod(JSONObject jsonObject) throws JSONException;
     public abstract  void ResponseMethod();
     protected abstract void error1(JSONObject jsonObject) throws JSONException;
+
+    @Override
+
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+
+        IntentFilter filter = new IntentFilter();
+
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+
+        networkReceiver = NetworkChangeReceiver.getInstance(this);
+
+        registerReceiver(networkReceiver, filter);
+
+    }
+
+    @Override
+
+    public void onConnectivityChange(boolean isConnected) {
+
+        if (isConnected) {
+
+            // do something when the conenctivity is restored
+
+        } else {
+
+            // do something when the connectivity is lost
+
+        }
+
+    }
+
+    protected void send(Map<String, String> params) {
+
+        if (!networkReceiver.isConnected()) {
+
+            Toast.makeText(HTTP.this,
+
+                    getResources().getString(R.string.verify_your_Internet), Toast.LENGTH_SHORT).show();
+
+            return;
+
+        }
+    }
+
+    @Override
+
+    public void onDestroy() {
+
+        if (networkReceiver != null) {
+
+            unregisterReceiver(networkReceiver);
+
+            networkReceiver = null;
+
+        }
+
+        super.onDestroy();
+
+    }
+
 }
 
 

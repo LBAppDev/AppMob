@@ -13,4 +13,5 @@
     <string name="address">العنوان</string>
     <string name="login">تسجيل الدخول</string>
     <string name="logout">تسجيل الخروج</string>
+    <string name="verify_your_Internet">verify your internet</string>
 </resources>
